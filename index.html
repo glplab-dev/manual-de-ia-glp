@@ -1,0 +1,839 @@
+<title>Manual IA Comercial GLP</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  /* Light theme only, by design: legibility over novelty, one predictable
+     palette instead of two. Tokens still declared explicitly so the page
+     holds its own ground rather than inheriting the host's. */
+  :root{
+    --bg:#ffffff;
+    --surface:#ffffff;
+    --surface-2:#eef1f5;
+    --border:#c3cad4;
+    --border-strong:#8b95a3;
+    --ink:#13181f;
+    --ink-muted:#3d4550;
+    --ink-faint:#565e69;
+    --blue:#00458f;
+    --blue-deep:#00265a;
+    --blue-tint:#dde9fb;
+    --green:#3c6b0e;
+    --green-tint:#e4f0d4;
+    --amber:#7a4e00;
+    --amber-tint:#fbecce;
+    --red:#8a231a;
+    --red-tint:#fbe3e0;
+    --gray-brand:#54575c;
+    --mono-bg:#eef1f5;
+    --mono-ink:#13181f;
+    --shadow: 0 1px 2px rgba(20,30,50,.05), 0 4px 12px -6px rgba(20,30,50,.10);
+    --radius: 10px;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Atkinson Hyperlegible', ui-sans-serif, system-ui, sans-serif;
+    font-size:16px;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{
+    font-family:'Atkinson Hyperlegible', ui-sans-serif, system-ui, sans-serif;
+    font-weight:700;
+    text-wrap:balance;
+    margin:0;
+    color:var(--ink);
+  }
+  p{margin:0; line-height:1.65;}
+  a{color:var(--blue); text-underline-offset:2px;}
+  code, .mono{font-family:'IBM Plex Mono', ui-monospace, monospace;}
+
+  /* Visible, consistent focus ring everywhere — keyboard navigation matters
+     as much as color contrast for an "accessible first" page. */
+  a:focus-visible, button:focus-visible, textarea:focus-visible{
+    outline:3px solid var(--blue); outline-offset:2px; border-radius:4px;
+  }
+
+  ::selection{background:var(--green-tint); color:var(--ink);}
+
+  /* ---------- Header ---------- */
+  .topbar{
+    position:sticky; top:0; z-index:40;
+    display:flex; align-items:center; gap:16px;
+    padding:14px 28px;
+    background:var(--surface);
+    border-bottom:1px solid var(--border);
+  }
+  .topbar img{height:30px; width:auto; display:block;}
+  .topbar .divider{width:1px; height:26px; background:var(--border);}
+  .topbar .title-block{display:flex; flex-direction:column; gap:1px;}
+  .topbar .title-block .eyebrow{
+    font-size:12.5px; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--gray-brand); font-weight:700;
+  }
+  .topbar .title-block h1{font-size:17px;}
+  .topbar .meta{
+    margin-left:auto; font-size:13px; color:var(--ink-muted);
+    display:flex; align-items:center; gap:8px;
+  }
+  .topbar .meta .pill{
+    background:var(--green-tint); color:var(--green);
+    padding:3px 10px; border-radius:99px; font-weight:700; font-size:12.5px;
+  }
+
+  /* ---------- Shell ---------- */
+  .shell{
+    display:grid;
+    grid-template-columns:246px minmax(0,1fr);
+    max-width:1180px;
+    margin:0 auto;
+    gap:0;
+  }
+  nav.side{
+    position:sticky; top:59px;
+    align-self:start;
+    height:calc(100vh - 59px);
+    overflow-y:auto;
+    padding:28px 14px 40px 28px;
+    font-size:15px;
+  }
+  nav.side .navgroup{margin-bottom:22px;}
+  nav.side .navgroup-label{
+    font-size:12px; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--ink-faint); font-weight:700; margin:0 0 8px 10px;
+  }
+  nav.side a{
+    display:block; padding:8px 10px; margin-bottom:2px;
+    border-radius:8px; color:var(--ink-muted); text-decoration:none;
+    font-weight:400; border-left:3px solid transparent;
+  }
+  nav.side a:hover{background:var(--surface-2); color:var(--ink); text-decoration:underline;}
+  nav.side a.active{
+    background:var(--blue-tint); color:var(--blue-deep);
+    border-left-color:var(--blue); font-weight:700;
+  }
+
+  main{padding:28px 28px 80px; min-width:0;}
+
+  section{scroll-margin-top:72px; margin-bottom:56px;}
+  section:last-child{margin-bottom:20px;}
+
+  .kicker{
+    display:inline-flex; align-items:center; gap:7px;
+    font-size:12.5px; font-weight:700; letter-spacing:.05em; text-transform:uppercase;
+    color:var(--blue-deep); margin-bottom:10px;
+  }
+  .kicker .dot{width:7px; height:7px; border-radius:50%; background:var(--green);}
+  section h2{font-size:27px; margin-bottom:6px;}
+  section > .lede{color:var(--ink-muted); font-size:16.5px; max-width:62ch; margin-top:10px; margin-bottom:26px;}
+
+  .card{
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:var(--radius); box-shadow:var(--shadow);
+  }
+
+  /* ---------- Hero / intro ---------- */
+  .hero{
+    padding:32px 28px; margin:24px 28px 8px;
+    border-radius:var(--radius);
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-left:5px solid var(--blue);
+  }
+  .hero h1{font-size:30px; line-height:1.2; max-width:24ch;}
+  .hero p.lede{margin-top:14px; font-size:16.5px; color:var(--ink-muted); max-width:60ch;}
+  .hero .facts{display:flex; flex-wrap:wrap; gap:10px; margin-top:22px;}
+  .hero .facts span{
+    font-size:13.5px; font-weight:400; color:var(--ink-muted);
+    background:var(--surface-2); border:1px solid var(--border);
+    padding:7px 13px; border-radius:99px;
+  }
+  .hero .facts strong{color:var(--blue-deep); font-weight:700;}
+
+  /* ---------- Diagnostic tool ---------- */
+  .diag{padding:26px 26px 24px;}
+  .diag .diaghead{display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:16px;}
+  .diag .diaghead h3{font-size:18px;}
+  .diag .diaghead p{font-size:14.5px; color:var(--ink-muted); margin-top:5px; max-width:52ch;}
+  .diag textarea{
+    width:100%; min-height:150px; resize:vertical;
+    border:1px solid var(--border-strong); border-radius:10px; padding:14px;
+    background:var(--surface-2); color:var(--ink);
+    font-family:'Atkinson Hyperlegible'; font-size:15.5px; line-height:1.6;
+  }
+  .diag textarea:focus-visible{outline:3px solid var(--blue); outline-offset:1px;}
+  .diag .diagrow{display:flex; align-items:center; gap:12px; margin-top:14px; flex-wrap:wrap;}
+  .btn-primary{
+    font-family:'Atkinson Hyperlegible'; font-weight:700; font-size:15px;
+    background:var(--blue); color:#fff; border:2px solid var(--blue);
+    padding:10px 18px; border-radius:9px; cursor:pointer;
+  }
+  .btn-primary:hover{background:var(--blue-deep); border-color:var(--blue-deep);}
+  .btn-primary:disabled{opacity:.55; cursor:default;}
+  .btn-ghost{
+    font-family:'Atkinson Hyperlegible'; font-weight:700; font-size:14px;
+    background:transparent; color:var(--ink-muted); border:2px solid var(--border-strong);
+    padding:9px 14px; border-radius:9px; cursor:pointer;
+  }
+  .btn-ghost:hover{border-color:var(--red); color:var(--red);}
+  .diag .hint{font-size:13.5px; color:var(--ink-muted);}
+  .diag .promptbox{
+    margin-top:18px; border-top:1px solid var(--border); padding-top:18px;
+    display:none;
+  }
+  .diag .promptbox.show{display:block;}
+  .diag .promptbox .label{
+    font-size:12px; font-weight:700; letter-spacing:.05em; text-transform:uppercase;
+    color:var(--ink-faint); margin-bottom:8px;
+  }
+  .diag .promptbox pre{
+    white-space:pre-wrap; word-break:break-word; margin:0;
+    font-family:'IBM Plex Mono'; font-size:13.8px; line-height:1.65;
+    background:var(--mono-bg); color:var(--mono-ink);
+    border:1px solid var(--border); border-radius:10px; padding:16px 18px;
+  }
+  .diag .copied{
+    margin-top:10px; font-size:14px; color:var(--green); font-weight:700;
+    display:none; align-items:center; gap:6px;
+  }
+  .diag .copied.show{display:flex;}
+
+  /* ---------- Prompting principles ---------- */
+  .principles{display:flex; flex-direction:column; gap:14px;}
+  .principle{padding:20px; display:grid; grid-template-columns:auto 1fr; gap:16px;}
+  .principle .idx{
+    width:36px; height:36px; border-radius:10px; background:var(--blue-tint); color:var(--blue-deep);
+    font-family:'IBM Plex Mono'; font-weight:600; font-size:14px;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .principle h4{font-size:16px; margin-bottom:4px;}
+  .principle p{font-size:14.5px; color:var(--ink-muted);}
+
+  .compare{display:grid; grid-template-columns:1fr; gap:14px; margin-top:8px;}
+  @media(min-width:760px){.compare{grid-template-columns:1fr 1fr;}}
+  .compare .card{padding:16px 18px;}
+  .compare .label{font-size:12px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; margin-bottom:8px; display:flex; align-items:center; gap:6px;}
+  .compare .label.weak{color:var(--red);}
+  .compare .label.good{color:var(--green);}
+  .compare p.ex{font-family:'IBM Plex Mono'; font-size:13.8px; line-height:1.6; color:var(--ink); background:var(--surface-2); border:1px solid var(--border); border-radius:8px; padding:12px;}
+
+  /* ---------- Task grid ---------- */
+  .grid3{display:grid; grid-template-columns:1fr; gap:14px;}
+  @media(min-width:700px){.grid3{grid-template-columns:repeat(2,1fr);}}
+  @media(min-width:1000px){.grid3{grid-template-columns:repeat(3,1fr);}}
+  .taskcard{padding:18px; display:flex; flex-direction:column; gap:9px;}
+  .taskcard h4{font-size:15.5px;}
+  .taskcard p{font-size:14px; color:var(--ink-muted);}
+  .taskcard .starter{
+    font-family:'IBM Plex Mono'; font-size:12.8px; color:var(--ink);
+    background:var(--surface-2); border:1px solid var(--border); border-radius:7px; padding:9px 10px; line-height:1.5;
+  }
+  .taskcard .starter b{color:var(--blue-deep); font-family:'Atkinson Hyperlegible'; font-weight:700; font-size:11px; text-transform:uppercase; letter-spacing:.04em; display:block; margin-bottom:4px;}
+
+  /* ---------- Habit list ---------- */
+  .habits{display:flex; flex-direction:column; gap:12px;}
+  .habit{padding:16px 18px; display:grid; grid-template-columns:auto 1fr; gap:14px; align-items:flex-start;}
+  .habit .mark{
+    width:28px; height:28px; border-radius:7px; background:var(--green); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; flex-shrink:0;
+  }
+  .habit h4{font-size:15px; margin-bottom:3px;}
+  .habit p{font-size:14px; color:var(--ink-muted);}
+
+  /* ---------- Security checklist ---------- */
+  .checkgrid{display:grid; grid-template-columns:1fr; gap:16px;}
+  @media(min-width:760px){.checkgrid{grid-template-columns:1fr 1fr;}}
+  .checkcol{padding:20px;}
+  .checkcol h4{font-size:15.5px; display:flex; align-items:center; gap:8px; margin-bottom:14px;}
+  .checkcol h4 .mark{
+    width:24px; height:24px; border-radius:6px; display:flex; align-items:center; justify-content:center;
+    font-size:14px; color:#fff; font-weight:700; flex-shrink:0;
+  }
+  .mark.ok{background:var(--green);}
+  .mark.no{background:var(--red);}
+  .checkcol ul{margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:10px;}
+  .checkcol li{font-size:14.5px; color:var(--ink-muted); line-height:1.55; padding-left:18px; position:relative;}
+  .checkcol li::before{content:'—'; position:absolute; left:0; color:var(--ink-faint);}
+
+  /* ---------- Ethics ---------- */
+  .split{display:grid; grid-template-columns:1fr; gap:16px;}
+  @media(min-width:860px){.split{grid-template-columns:1fr 1fr;}}
+  .split .col{padding:22px;}
+  .split .col .role{display:flex; align-items:center; gap:8px; margin-bottom:14px;}
+  .split .col .role .badge{
+    width:32px; height:32px; border-radius:9px; display:flex; align-items:center; justify-content:center;
+    font-size:16px; font-weight:700; color:#fff;
+  }
+  .badge.blue{background:var(--blue);}
+  .badge.green{background:var(--green);}
+  .split .col .role h3{font-size:17px;}
+  .split .col .role span{font-size:13px; color:var(--ink-muted);}
+  .split ul{margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:11px;}
+  .split li{font-size:14.5px; color:var(--ink-muted); padding-left:19px; position:relative; line-height:1.55;}
+  .split li::before{content:''; position:absolute; left:0; top:8px; width:7px; height:7px; border-radius:50%;}
+  .split .col.a li::before{background:var(--blue);}
+  .split .col.b li::before{background:var(--green);}
+  .split li b{color:var(--ink); font-weight:700;}
+
+  /* ---------- Setup / warning box ---------- */
+  .warnbox{
+    padding:22px 24px; border-radius:var(--radius); border:1px solid var(--border);
+    border-left:5px solid var(--amber); background:var(--amber-tint); box-shadow:var(--shadow);
+  }
+  .warnbox .warnhead{display:flex; align-items:center; gap:10px; margin-bottom:12px;}
+  .warnbox .warnicon{font-size:19px; line-height:1;}
+  .warnbox h3{font-size:16.5px;}
+  .warnbox p{font-size:14.5px; color:var(--ink-muted); line-height:1.6;}
+  .warnbox p + p{margin-top:10px;}
+  .warnbox .warnrule{color:var(--ink); font-weight:700;}
+  .warnbox a{font-weight:700;}
+
+  /* ---------- Real-world examples per area ---------- */
+  .areagrid{display:grid; grid-template-columns:1fr; gap:16px;}
+  @media(min-width:820px){.areagrid{grid-template-columns:1fr 1fr;}}
+  .areacard{padding:22px;}
+  .areacard .areahead{display:flex; align-items:center; gap:10px; margin-bottom:14px;}
+  .areacard .areaicon{
+    width:34px; height:34px; border-radius:9px; background:var(--blue-tint);
+    display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0;
+  }
+  .areacard h4{font-size:16.5px;}
+  .areaflow{display:flex; flex-direction:column; gap:10px;}
+  .areaflow .step{font-size:14px; line-height:1.55;}
+  .areaflow .step .tag{
+    display:inline-block; font-family:'IBM Plex Mono'; font-size:10.5px; font-weight:600;
+    letter-spacing:.04em; text-transform:uppercase; padding:2px 7px; border-radius:5px; margin-right:7px; vertical-align:2px;
+  }
+  .areaflow .step.before .tag{background:var(--red-tint); color:var(--red);}
+  .areaflow .step.after .tag{background:var(--green-tint); color:var(--green);}
+  .areaflow .step .txt{color:var(--ink-muted);}
+  .areacard .insight{
+    margin-top:14px; padding-top:12px; border-top:1px solid var(--border);
+    font-size:13.5px; color:var(--ink-faint);
+  }
+  .areacard .insight b{color:var(--ink-muted);}
+
+  /* ---------- FAQ ---------- */
+  .faqlist{display:flex; flex-direction:column; gap:10px;}
+  .qa summary{
+    cursor:pointer; padding:16px 20px; font-weight:700; font-size:15px; color:var(--ink);
+    list-style:none; display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .qa summary::-webkit-details-marker{display:none;}
+  .qa summary::after{content:'+'; font-size:20px; color:var(--blue); font-weight:400; flex-shrink:0;}
+  .qa[open] summary::after{content:'\2013';}
+  .qa summary:focus-visible{outline:3px solid var(--blue); outline-offset:-3px; border-radius:8px;}
+  .qa .answer{padding:0 20px 18px; font-size:14.5px; color:var(--ink-muted); line-height:1.6; max-width:66ch;}
+  .qa .answer a{font-weight:700;}
+
+  .mistakes{display:flex; flex-direction:column; gap:12px; margin-top:22px;}
+  .mistake{padding:16px 18px; display:grid; grid-template-columns:auto 1fr; gap:14px; align-items:flex-start;}
+  .mistake .mark{
+    width:28px; height:28px; border-radius:7px; background:var(--amber); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-weight:700; font-size:15px; flex-shrink:0;
+  }
+  .mistake h4{font-size:15px; margin-bottom:3px;}
+  .mistake p{font-size:14px; color:var(--ink-muted);}
+
+  /* ---------- Glossary ---------- */
+  .glossary{display:grid; grid-template-columns:1fr; gap:12px; margin:0; padding:0;}
+  @media(min-width:700px){.glossary{grid-template-columns:repeat(2,1fr);}}
+  @media(min-width:1040px){.glossary{grid-template-columns:repeat(3,1fr);}}
+  .gterm{padding:16px 18px;}
+  .gterm dt{font-family:'IBM Plex Mono'; font-weight:600; font-size:13.5px; color:var(--blue-deep); margin-bottom:6px;}
+  .gterm dd{margin:0; font-size:13.8px; color:var(--ink-muted); line-height:1.55;}
+
+  /* ---------- Learning track ---------- */
+  .tracks{display:flex; flex-direction:column; gap:12px;}
+  .track{padding:18px 20px; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap;}
+  .track .info .tracktag{
+    display:inline-block; font-size:11.5px; font-weight:700; letter-spacing:.04em; text-transform:uppercase;
+    color:var(--gray-brand); background:var(--surface-2); border:1px solid var(--border);
+    padding:2px 8px; border-radius:6px; margin-bottom:8px;
+  }
+  .track .info h4{font-size:15.5px; margin-bottom:4px;}
+  .track .info p{font-size:14px; color:var(--ink-muted); max-width:52ch;}
+  .track a.tracklink{
+    flex-shrink:0; font-weight:700; font-size:14px; color:var(--blue); text-decoration:none;
+    border:2px solid var(--blue); padding:8px 14px; border-radius:9px; white-space:nowrap;
+  }
+  .track a.tracklink:hover{background:var(--blue); color:#fff;}
+
+  footer{padding:26px 28px 60px; text-align:center; color:var(--ink-muted); font-size:13px;}
+</style>
+
+<div class="topbar">
+  <img src="data:image/png;base64,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" alt="GLP Laboratórios">
+  <div class="divider"></div>
+  <div class="title-block">
+    <span class="eyebrow">Manual interno</span>
+    <h1>IA no Comercial — GLP Laboratórios</h1>
+  </div>
+  <div class="meta">
+    <span class="pill">v4 · Uso geral</span>
+    <span>Atualizado em set/2026</span>
+  </div>
+</div>
+
+<div class="shell">
+  <nav class="side" id="sidenav">
+    <div class="navgroup">
+      <div class="navgroup-label">Comece aqui</div>
+      <a href="#inicio">Visão geral</a>
+      <a href="#setup">Primeiros passos</a>
+      <a href="#diagnostico">Suas demandas</a>
+    </div>
+    <div class="navgroup">
+      <div class="navgroup-label">Fundamentos</div>
+      <a href="#conversar">Como conversar com a IA</a>
+      <a href="#tarefas">Tarefas do dia a dia</a>
+      <a href="#exemplos">Exemplos por área</a>
+      <a href="#automatizar">Automatizar de verdade</a>
+    </div>
+    <div class="navgroup">
+      <div class="navgroup-label">Regras do jogo</div>
+      <a href="#seguranca">Segurança &amp; privacidade</a>
+      <a href="#etica">Postura &amp; ética</a>
+    </div>
+    <div class="navgroup">
+      <div class="navgroup-label">Para ir além</div>
+      <a href="#faq">Perguntas frequentes</a>
+      <a href="#glossario">Glossário</a>
+      <a href="#aprender">Trilha de aprendizado</a>
+    </div>
+  </nav>
+
+  <main>
+    <section id="inicio">
+      <div class="hero">
+        <h1>Usar bem a IA no comercial, seja qual for a ferramenta</h1>
+        <p class="lede">Este manual não ensina um sistema — ensina a usar bem a IA que você tiver à mão (ChatGPT, Claude, Gemini, Copilot ou outra) no que quer que você esteja fazendo: um e-mail, uma pesquisa, um resumo, uma proposta. É a base comum que vale hoje e continua valendo mesmo se a GLP mudar de ferramenta amanhã. Documento vivo: atualizo esta mesma página conforme o uso evolui.</p>
+        <div class="facts">
+          <span>Vale pra qualquer IA — ChatGPT, Claude, Gemini ou outra</span>
+          <span>Foco em <strong>como pensar</strong>, não em botões pra clicar</span>
+          <span>Revisão humana sempre no final — isso não muda</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="setup">
+      <span class="kicker"><span class="dot"></span>Antes de tudo</span>
+      <h2>Primeiros passos</h2>
+      <p class="lede">Meia hora de configuração evita meses de uso capenga. E um cuidado tomado agora evita um problema sério depois — por isso a confidencialidade já entra aqui, antes de qualquer prompt.</p>
+
+      <div class="split">
+        <div class="card col a">
+          <div class="role"><span class="badge blue">1</span><div><h3>Escolha e crie a conta</h3><span>leva 2 minutos</span></div></div>
+          <ul>
+            <li>Se a empresa já disponibiliza uma IA com login corporativo, comece por ela — é a opção mais segura pra dados de trabalho.</li>
+            <li>Sem isso ainda, uma conta pessoal em ChatGPT, Claude, Gemini ou outra já serve pra praticar — dá pra trocar depois, o jeito de usar é parecido entre elas.</li>
+            <li>Repare no plano contratado: contas gratuitas têm limites de uso e, em geral, regras de dados diferentes das pagas — mais abaixo.</li>
+          </ul>
+        </div>
+        <div class="card col b">
+          <div class="role"><span class="badge green">2</span><div><h3>Web, desktop ou celular</h3><span>vale instalar o app</span></div></div>
+          <ul>
+            <li>A maioria das IAs funciona direto no navegador, mas também tem <b>app de computador</b> (Windows/Mac) e <b>app de celular</b> (iOS/Android).</li>
+            <li>Os apps costumam trazer recursos que o navegador não tem — varia por ferramenta, mas é comum: ditar por voz, mandar foto ou print direto pela câmera, atalho rápido de teclado, notificações.</li>
+            <li>Vale a pena instalar pelo menos um dos dois — o ganho de praticidade no dia a dia compensa.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="warnbox" style="margin-top:16px;">
+        <div class="warnhead"><span class="warnicon">⚠️</span><h3>Confidencialidade não espera o resto do manual</h3></div>
+        <p>Se a conta for <b>gratuita ou pessoal</b>, redobre o cuidado. Várias IAs, no plano grátis, podem usar o que você escreve pra treinar o modelo por padrão — a regra muda de ferramenta pra ferramenta e pode mudar com o tempo, então <b>confira nas configurações de privacidade/dados</b> antes de confiar nela. Contas corporativas (pagas, fornecidas pela empresa) em geral não usam os dados pra treinar por padrão — mas vale confirmar também.</p>
+        <p class="warnrule">Regra prática: nunca cole dados de cliente, preços, contratos ou qualquer informação confidencial numa conta pessoal/gratuita sem checar essa configuração antes. Na dúvida, não cole. <a href="#seguranca">Mais detalhes na seção de segurança →</a></p>
+      </div>
+    </section>
+
+    <section id="diagnostico">
+      <span class="kicker"><span class="dot"></span>Comece por aqui</span>
+      <h2>Suas demandas, hoje</h2>
+      <p class="lede">Liste o que ocupa o seu dia e como você faz cada coisa <em>hoje</em>, sem se preocupar em parecer bem escrito. Quanto mais concreto, melhor a sugestão que você vai receber. Depois é só gerar o prompt pronto abaixo e colar na IA que você usa — ChatGPT, Claude, Gemini ou outra.</p>
+
+      <div class="card diag">
+        <div class="diaghead">
+          <div>
+            <h3>O que ocupa seu dia, e como você faz hoje</h3>
+            <p>Uma tarefa por linha ou por parágrafo. Ex.: "respondo e-mail de cliente perguntando status de proposta — hoje abro cada um e respondo do zero, sem modelo".</p>
+          </div>
+        </div>
+        <textarea id="diagInput" placeholder="1) [tarefa] — como faço hoje: ...&#10;2) [tarefa] — como faço hoje: ...&#10;3) [tarefa] — como faço hoje: ..."></textarea>
+        <div class="diagrow">
+          <button class="btn-primary" id="diagBtn" type="button">Gerar prompt</button>
+          <span class="hint" id="diagHint">Monta um pedido pronto, já com o que você escreveu, pra colar na sua IA de preferência.</span>
+        </div>
+        <div class="promptbox" id="diagPromptBox">
+          <div class="label">Copie e cole na sua IA</div>
+          <pre id="diagPromptText"></pre>
+          <span class="copied" id="diagCopied">✓ Copiado — agora é só colar na sua IA</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="conversar">
+      <span class="kicker"><span class="dot"></span>Fundamento nº 1</span>
+      <h2>Como conversar bem com a IA</h2>
+      <p class="lede">A diferença entre uma resposta genérica e uma útil está quase sempre em como você pede, não em qual IA você usa.</p>
+
+      <div class="principles">
+        <div class="card principle">
+          <div class="idx">01</div>
+          <div><h4>Dê contexto de verdade</h4><p>Quem é o cliente, qual o setor, qual o objetivo da conversa, o que já foi combinado. Sem isso, a IA responde no genérico — e genérico não convence ninguém.</p></div>
+        </div>
+        <div class="card principle">
+          <div class="idx">02</div>
+          <div><h4>Diga o formato que você quer</h4><p>"E-mail curto, direto, sem parecer robô" é diferente de "lista com os pontos técnicos". Quanto mais claro o formato pedido, menos retrabalho depois.</p></div>
+        </div>
+        <div class="card principle">
+          <div class="idx">03</div>
+          <div><h4>Peça pra sinalizar o que falta, em vez de inventar</h4><p>Diga explicitamente: "se não souber um dado, marque como pendente, não invente". Isso evita o erro mais comum — a IA preencher um número ou prazo que não existe.</p></div>
+        </div>
+        <div class="card principle">
+          <div class="idx">04</div>
+          <div><h4>Trate a primeira resposta como rascunho</h4><p>Raramente a primeira resposta é a final. Peça ajustes específicos — "mais curto", "tom mais direto", "tira o segundo parágrafo" — em vez de recomeçar do zero.</p></div>
+        </div>
+      </div>
+
+      <div class="compare">
+        <div class="card">
+          <div class="label weak">Prompt fraco</div>
+          <p class="ex">"Escreve um e-mail de follow-up pro cliente."</p>
+        </div>
+        <div class="card">
+          <div class="label good">Prompt bom</div>
+          <p class="ex">"Escreva um e-mail de follow-up pra [cliente], que recebeu nossa proposta há 6 dias e não respondeu. Tom cordial, direto, sem soar insistente. Objetivo: entender se falta alguma informação técnica ou comercial da nossa parte. Termine com uma pergunta simples de responder."</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="tarefas">
+      <span class="kicker"><span class="dot"></span>Fundamento nº 2</span>
+      <h2>Tarefas do dia a dia que a IA ajuda</h2>
+      <p class="lede">Seis tipos de tarefa que aparecem em praticamente qualquer rotina comercial — independente de qual sistema você usa pra registrar o resultado.</p>
+
+      <div class="grid3">
+        <div class="card taskcard">
+          <h4>Escrever</h4>
+          <p>E-mails, mensagens, textos de proposta, respostas a dúvidas — qualquer coisa que hoje você escreve do zero toda vez.</p>
+          <div class="starter"><b>Ponto de partida</b>"Escreva [tipo de texto] para [situação], tom [x], com estes pontos: ..."</div>
+        </div>
+        <div class="card taskcard">
+          <h4>Pesquisar</h4>
+          <p>Contexto sobre uma empresa, o setor dela, notícias recentes — antes de uma ligação, reunião ou visita.</p>
+          <div class="starter"><b>Ponto de partida</b>"Pesquise [empresa]: o que faz, porte, notícias recentes e possíveis dores relacionadas a [seu produto/serviço]."</div>
+        </div>
+        <div class="card taskcard">
+          <h4>Resumir</h4>
+          <p>Reuniões longas, documentos extensos, e-mails compridos — qualquer coisa que hoje toma tempo só de ler.</p>
+          <div class="starter"><b>Ponto de partida</b>"Resuma em [n] pontos: contexto, decisões, próximos passos e pendências."</div>
+        </div>
+        <div class="card taskcard">
+          <h4>Revisar</h4>
+          <p>Clareza, tom, erros — uma segunda leitura antes de qualquer coisa sair pro cliente.</p>
+          <div class="starter"><b>Ponto de partida</b>"Revise este texto: aponte o que está confuso ou pode soar mal, sem reescrever tudo."</div>
+        </div>
+        <div class="card taskcard">
+          <h4>Organizar &amp; analisar</h4>
+          <p>Comparar números, estruturar uma lista bagunçada, montar uma tabela a partir de texto solto.</p>
+          <div class="starter"><b>Ponto de partida</b>"Organize estas informações numa tabela com colunas [x, y, z]."</div>
+        </div>
+        <div class="card taskcard">
+          <h4>Brainstorm</h4>
+          <p>Ideias, ângulos de abordagem, formas diferentes de responder a uma objeção difícil.</p>
+          <div class="starter"><b>Ponto de partida</b>"Me dê 5 formas diferentes de responder a esta objeção: [objeção]."</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="exemplos">
+      <span class="kicker"><span class="dot"></span>Na prática, por área</span>
+      <h2>Exemplos por área de negócio</h2>
+      <p class="lede">O jeito de usar muda pouco de ferramenta pra ferramenta, mas muda conforme o tipo de demanda de cada frente. Um cenário simples por área, pra dar ideia de aplicação real.</p>
+
+      <div class="areagrid">
+        <div class="card areacard">
+          <div class="areahead"><span class="areaicon">⛏️</span><h4>Mineração</h4></div>
+          <div class="areaflow">
+            <div class="step before"><span class="tag">Antes</span><span class="txt">Edital de licitação com dezenas de páginas — a manhã inteira garimpando quais análises e prazos são exigidos.</span></div>
+            <div class="step after"><span class="tag">Depois</span><span class="txt">Cola os trechos técnicos do edital na IA e pede uma lista dos parâmetros, normas citadas e prazos exigidos — só pra depois conferir contra o original.</span></div>
+          </div>
+          <div class="insight"><b>Por que funciona:</b> é leitura e organização, não decisão — a IA lê rápido, você confere o que importa.</div>
+        </div>
+
+        <div class="card areacard">
+          <div class="areahead"><span class="areaicon">🌱</span><h4>Ambiental</h4></div>
+          <div class="areaflow">
+            <div class="step before"><span class="tag">Antes</span><span class="txt">Cliente pede uma proposta de monitoramento e você monta o documento do zero, copiando de uma proposta antiga parecida.</span></div>
+            <div class="step after"><span class="tag">Depois</span><span class="txt">Descreve o tipo de monitoramento, frequência e local, pede um rascunho seguindo a estrutura padrão da empresa — você ajusta e confere os dados técnicos.</span></div>
+          </div>
+          <div class="insight"><b>Por que funciona:</b> a estrutura se repete de proposta pra proposta — é onde padronizar o pedido (ver "Automatizar de verdade") rende mais.</div>
+        </div>
+
+        <div class="card areacard">
+          <div class="areahead"><span class="areaicon">🍏</span><h4>Alimentos</h4></div>
+          <div class="areaflow">
+            <div class="step before"><span class="tag">Antes</span><span class="txt">As mesmas perguntas chegam toda semana, de clientes diferentes — prazo de laudo, certificações, como funciona a coleta.</span></div>
+            <div class="step after"><span class="tag">Depois</span><span class="txt">Pede pra IA montar respostas-modelo pras perguntas mais comuns, em tom cordial — você adapta o nome e os detalhes de cada cliente antes de enviar.</span></div>
+          </div>
+          <div class="insight"><b>Por que funciona:</b> pergunta repetida é candidata natural a virar modelo — a IA ajuda a escrever a primeira versão boa.</div>
+        </div>
+
+        <div class="card areacard">
+          <div class="areahead"><span class="areaicon">🤝</span><h4>Laboratórios parceiros</h4></div>
+          <div class="areaflow">
+            <div class="step before"><span class="tag">Antes</span><span class="txt">Onboarding de um novo laboratório parceiro — o processo explicado aos poucos, em e-mails soltos, conforme as dúvidas aparecem.</span></div>
+            <div class="step after"><span class="tag">Depois</span><span class="txt">Junta as anotações soltas de reuniões e pede pra IA organizar um roteiro/checklist de onboarding em ordem — revisa e usa como ponto de partida com o próximo parceiro.</span></div>
+          </div>
+          <div class="insight"><b>Por que funciona:</b> é organização de informação que já existe, só espalhada — a IA junta, você valida a ordem e o conteúdo.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="automatizar">
+      <span class="kicker"><span class="dot"></span>Fundamento nº 3</span>
+      <h2>Automatizar de verdade</h2>
+      <p class="lede">Usar IA uma vez economiza um minuto. Usar do mesmo jeito toda vez é o que realmente muda a rotina.</p>
+
+      <div class="habits">
+        <div class="card habit">
+          <div class="mark">1</div>
+          <div><h4>Guarde os prompts que funcionaram</h4><p>Quando um pedido deu uma resposta boa, salve o texto em algum lugar. Isso vira seu próprio "banco de receitas" — da próxima vez, você não recomeça do zero.</p></div>
+        </div>
+        <div class="card habit">
+          <div class="mark">2</div>
+          <div><h4>Uma conversa por tipo de tarefa</h4><p>Em vez de um único chat com tudo misturado, separe por assunto (um cliente, um tipo de tarefa). Fica mais fácil voltar e reaproveitar o contexto.</p></div>
+        </div>
+        <div class="card habit">
+          <div class="mark">3</div>
+          <div><h4>Padronize o pedido</h4><p>Se você faz a mesma coisa toda semana (ex.: resumo de reunião), use sempre a mesma estrutura de prompt. Menos tempo pensando em como pedir, mais tempo revisando o resultado.</p></div>
+        </div>
+        <div class="card habit">
+          <div class="mark">4</div>
+          <div><h4>Separe rascunho de decisão</h4><p>A IA propõe, você decide. Isso não é burocracia — é o que evita que um erro dela vire um problema real com o cliente.</p></div>
+        </div>
+        <div class="card habit">
+          <div class="mark">5</div>
+          <div><h4>Reavalie de vez em quando</h4><p>A cada tanto, pare e pergunte: isso realmente está economizando tempo, ou só mudou onde o tempo é gasto? Ajuste o que não está funcionando.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="seguranca">
+      <span class="kicker"><span class="dot"></span>Antes de colar qualquer coisa</span>
+      <h2>Segurança &amp; privacidade</h2>
+      <p class="lede">Regras gerais, válidas pra qualquer conversa com IA — não só as ligadas a um sistema específico.</p>
+
+      <div class="checkgrid">
+        <div class="card checkcol">
+          <h4><span class="mark ok">✓</span>Faça</h4>
+          <ul>
+            <li>Use a conta de IA aprovada pela empresa para qualquer dado de cliente.</li>
+            <li>Trate toda resposta como rascunho — confira nomes, números, prazos e informações técnicas antes de usar.</li>
+            <li>Cole só o necessário para a tarefa — não o documento inteiro "por garantia".</li>
+            <li>Marque claramente o que ainda não foi confirmado (ex.: um valor) até validar.</li>
+          </ul>
+        </div>
+        <div class="card checkcol">
+          <h4><span class="mark no">×</span>Evite</h4>
+          <ul>
+            <li>Colar dados de um cliente pra dar contexto sobre outro, sem necessidade.</li>
+            <li>Colar planilhas inteiras com preços ou dados de toda a carteira quando o pedido é sobre um caso só.</li>
+            <li>Deixar a IA decidir preço final, prazo contratual ou qualquer risco assumido pela empresa.</li>
+            <li>Usar conta pessoal/gratuita fora do que a empresa combinar, para dados comerciais sensíveis.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="etica">
+      <span class="kicker"><span class="dot"></span>O combinado de fundo</span>
+      <h2>Postura &amp; ética</h2>
+      <p class="lede">A IA muda o ritmo do trabalho. Não muda quem é responsável pelo que sai da empresa.</p>
+
+      <div class="split">
+        <div class="card col a">
+          <div class="role"><span class="badge blue">✓</span><div><h3>Quando vale usar</h3><span>a maior parte do dia a dia</span></div></div>
+          <ul>
+            <li>Tarefas <b>repetitivas ou de rascunho</b>: e-mails, resumos, primeira versão de um texto.</li>
+            <li>Pesquisa e organização de informação — juntar contexto antes de decidir.</li>
+            <li><b>Brainstorm</b> — gerar opções pra você escolher, não pra aceitar sem pensar.</li>
+            <li>Revisão — uma segunda leitura antes de algo sair.</li>
+          </ul>
+        </div>
+        <div class="card col b">
+          <div class="role"><span class="badge green">!</span><div><h3>O que continua sendo seu</h3><span>decisão e responsabilidade</span></div></div>
+          <ul>
+            <li><b>Revisão humana é sempre o último passo</b> antes de qualquer coisa chegar ao cliente.</li>
+            <li>Preço, prazo contratual e risco assumido pela empresa são decisão de pessoa, não de IA.</li>
+            <li>Você é responsável pelo conteúdo que envia, mesmo quando a IA ajudou a escrever.</li>
+            <li>Se uma tarefa não se beneficia de IA, está tudo bem continuar fazendo do seu jeito.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <span class="kicker"><span class="dot"></span>Dúvidas de quem tá começando</span>
+      <h2>Perguntas frequentes &amp; erros comuns</h2>
+      <p class="lede">As dúvidas que mais aparecem quando alguém começa a usar IA no dia a dia — e os deslizes mais fáceis de evitar.</p>
+
+      <div class="faqlist">
+        <details class="card qa">
+          <summary>A IA vai substituir meu trabalho?</summary>
+          <div class="answer">Não faz o que você faz — faz o rascunho mais rápido. Quem entende o cliente, decide o preço, assume o risco e mantém a relação continua sendo você. A IA tira tempo de tarefas repetitivas, não a sua função.</div>
+        </details>
+        <details class="card qa">
+          <summary>E se a IA "inventar" uma informação (alucinação)?</summary>
+          <div class="answer">Acontece com qualquer IA, de vez em quando — ela pode preencher um número, nome ou prazo que soa plausível mas está errado. Por isso a regra vale sempre: trate a resposta como rascunho e confira dado por dado antes de usar. Pedir explicitamente "se não souber, marque como pendente, não invente" (ver <a href="#conversar">Como conversar com a IA</a>) reduz bastante o risco.</div>
+        </details>
+        <details class="card qa">
+          <summary>Preciso saber programar ou usar comandos difíceis?</summary>
+          <div class="answer">Não. Você escreve em português normal, como se estivesse pedindo pra um colega. Não existe comando secreto — existe pedir com mais contexto e mais clareza, só isso.</div>
+        </details>
+        <details class="card qa">
+          <summary>Preciso pagar pra usar?</summary>
+          <div class="answer">Não necessariamente — a maioria das IAs tem versão gratuita, com limites de uso e, em geral, regras de dados diferentes das pagas. Antes de usar pra qualquer coisa de trabalho, vale conferir (ver <a href="#setup">Primeiros passos</a> e <a href="#seguranca">Segurança &amp; privacidade</a>).</div>
+        </details>
+        <details class="card qa">
+          <summary>A resposta veio genérica ou fraca. O que eu faço?</summary>
+          <div class="answer">Quase sempre é falta de contexto ou de formato pedido. Volte e complete: quem é o cliente, qual o objetivo, que tom, que tamanho. Peça o ajuste específico em vez de recomeçar do zero (ver <a href="#conversar">Como conversar com a IA</a>).</div>
+        </details>
+        <details class="card qa">
+          <summary>Posso usar a mesma conversa pra tudo?</summary>
+          <div class="answer">Dá, mas não rende tanto. Separar por assunto ou tipo de tarefa deixa mais fácil voltar depois e reaproveitar o contexto que já foi dado (ver <a href="#automatizar">Automatizar de verdade</a>).</div>
+        </details>
+      </div>
+
+      <div class="mistakes">
+        <div class="card mistake">
+          <div class="mark">!</div>
+          <div><h4>Aceitar a primeira resposta sem checar</h4><p>É o erro mais comum e o mais caro — um número ou prazo errado que passa direto pro cliente.</p></div>
+        </div>
+        <div class="card mistake">
+          <div class="mark">!</div>
+          <div><h4>Colar informação confidencial sem pensar</h4><p>Principalmente em conta pessoal/gratuita. Revise <a href="#seguranca">Segurança &amp; privacidade</a> antes de colar dado de cliente.</p></div>
+        </div>
+        <div class="card mistake">
+          <div class="mark">!</div>
+          <div><h4>Pedir tudo de uma vez, sem dar contexto</h4><p>Quanto menos contexto, mais genérica a resposta — e mais tempo você gasta ajustando depois.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="glossario">
+      <span class="kicker"><span class="dot"></span>Pra quem tá começando do zero</span>
+      <h2>Glossário rápido</h2>
+      <p class="lede">Termos que aparecem neste manual e no dia a dia com qualquer IA — sem jargão técnico desnecessário.</p>
+
+      <dl class="glossary">
+        <div class="card gterm"><dt>Prompt</dt><dd>O pedido que você escreve pra IA. Quanto mais contexto e formato claro, melhor a resposta.</dd></div>
+        <div class="card gterm"><dt>Contexto</dt><dd>As informações de fundo que você dá — quem é o cliente, o objetivo, o que já foi combinado.</dd></div>
+        <div class="card gterm"><dt>Alucinação</dt><dd>Quando a IA inventa uma informação que soa certa mas não é real. Motivo nº 1 pra sempre revisar antes de usar.</dd></div>
+        <div class="card gterm"><dt>Modelo (de IA)</dt><dd>O "motor" por trás da IA que você usa — ex.: GPT, Claude, Gemini. Cada ferramenta pode ter mais de um modelo disponível.</dd></div>
+        <div class="card gterm"><dt>Conversa / chat</dt><dd>A troca de mensagens entre você e a IA. O histórico da conversa é o que dá contexto às próximas respostas.</dd></div>
+        <div class="card gterm"><dt>Janela de contexto</dt><dd>O quanto a IA "lembra" dentro de uma mesma conversa. Em conversas muito longas, ela pode perder detalhes do começo.</dd></div>
+        <div class="card gterm"><dt>Rascunho vs. versão final</dt><dd>Tudo que a IA entrega é rascunho — a revisão humana é o que transforma em versão final, pronta pra sair.</dd></div>
+        <div class="card gterm"><dt>Token</dt><dd>A unidade que a IA usa pra "ler" e "escrever" texto (aproximadamente pedaços de palavra). Aparece em limites de uso — não precisa se preocupar com o número exato no dia a dia.</dd></div>
+      </dl>
+    </section>
+
+    <section id="aprender">
+      <span class="kicker"><span class="dot"></span>Pra quem quiser ir além</span>
+      <h2>Trilha de aprendizado</h2>
+      <p class="lede">Esse manual é o ponto de partida. Pra quem quiser se aprofundar, por conta própria e no seu ritmo — tudo gratuito.</p>
+
+      <div class="tracks">
+        <div class="card track">
+          <div class="info">
+            <span class="tracktag">Curso · Gratuito</span>
+            <h4>AI Fluency: Framework &amp; Foundations</h4>
+            <p>Curso introdutório da Anthropic Academy sobre como colaborar com IA de forma eficaz, eficiente, ética e segura — vale pra qualquer ferramenta, não só Claude.</p>
+          </div>
+          <a class="tracklink" href="https://anthropic.skilljar.com/" target="_blank" rel="noopener">Acessar →</a>
+        </div>
+        <div class="card track">
+          <div class="info">
+            <span class="tracktag">Curso · Gratuito</span>
+            <h4>AI Fluency for Small Businesses</h4>
+            <p>Foco em times pequenos e comerciais — mais próximo do dia a dia da GLP do que um curso técnico.</p>
+          </div>
+          <a class="tracklink" href="https://anthropic.skilljar.com/" target="_blank" rel="noopener">Acessar →</a>
+        </div>
+        <div class="card track">
+          <div class="info">
+            <span class="tracktag">Hábito</span>
+            <h4>Reserve 15 minutos por semana</h4>
+            <p>Teste um jeito novo de pedir algo, revise um prompt que não funcionou, releia a seção "Como conversar com a IA". O ganho vem da prática repetida, não de um curso só.</p>
+          </div>
+        </div>
+        <div class="card track">
+          <div class="info">
+            <span class="tracktag">Hábito</span>
+            <h4>Volte a este manual de vez em quando</h4>
+            <p>É um documento vivo — o jeito de usar IA muda rápido. Vale revisitar a cada tanto, principalmente a seção de segurança.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      GLP Laboratórios · Manual interno de uso de IA — comercial · documento vivo, atualizado conforme o uso evolui
+    </footer>
+  </main>
+</div>
+
+<script>
+(function(){
+  try{
+    var links = Array.from(document.querySelectorAll('nav.side a'));
+    var map = {};
+    links.forEach(function(a){ map[a.getAttribute('href').slice(1)] = a; });
+    var sections = Array.from(document.querySelectorAll('main section[id]'));
+    var observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        var link = map[entry.target.id];
+        if(!link) return;
+        if(entry.isIntersecting){
+          links.forEach(function(l){ l.classList.remove('active'); });
+          link.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+    sections.forEach(function(s){ observer.observe(s); });
+  }catch(e){}
+})();
+
+(function(){
+  var input = document.getElementById('diagInput');
+  var btn = document.getElementById('diagBtn');
+  var promptBox = document.getElementById('diagPromptBox');
+  var promptText = document.getElementById('diagPromptText');
+  var copied = document.getElementById('diagCopied');
+
+  function buildPrompt(userText){
+    return 'Você é um consultor de produtividade especializado em uso de IA no trabalho comercial de uma empresa de laboratório de análises (setores: mineração, ambiental, alimentos, laboratórios parceiros).\n\n'
+      + 'Para CADA tarefa que eu listar abaixo, com o jeito que eu faço hoje, sugira: (1) se e como a IA pode ajudar, (2) uma ideia concreta de como fazer isso na prática, (3) o ganho esperado, em termos qualitativos, sem inventar números. Se uma tarefa não se beneficia de IA, diga isso com honestidade. Organize a resposta por tarefa.\n\n'
+      + 'Minhas tarefas e como faço hoje:\n"""\n' + userText + '\n"""';
+  }
+
+  btn.addEventListener('click', function(){
+    var val = (input.value || '').trim();
+    if(!val){ input.focus(); return; }
+
+    var prompt = buildPrompt(val);
+    promptText.textContent = prompt;
+    promptBox.classList.add('show');
+    copied.classList.remove('show');
+
+    try{
+      navigator.clipboard.writeText(prompt).then(function(){
+        copied.classList.add('show');
+      }).catch(function(){});
+    }catch(e){}
+  });
+})();
+</script>
