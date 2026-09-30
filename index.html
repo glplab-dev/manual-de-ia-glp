@@ -85,40 +85,52 @@
 
   /* ---------- Shell ---------- */
   .shell{
-    display:grid;
-    grid-template-columns:246px minmax(0,1fr);
-    max-width:1180px;
+    max-width:860px;
     margin:0 auto;
-    gap:0;
-  }
-  nav.side{
-    position:sticky; top:59px;
-    align-self:start;
-    height:calc(100vh - 59px);
-    overflow-y:auto;
-    padding:28px 14px 40px 28px;
-    font-size:15px;
-  }
-  nav.side .navgroup{margin-bottom:22px;}
-  nav.side .navgroup-label{
-    font-size:12px; letter-spacing:.06em; text-transform:uppercase;
-    color:var(--ink-faint); font-weight:700; margin:0 0 8px 10px;
-  }
-  nav.side a{
-    display:block; padding:8px 10px; margin-bottom:2px;
-    border-radius:8px; color:var(--ink-muted); text-decoration:none;
-    font-weight:400; border-left:3px solid transparent;
-  }
-  nav.side a:hover{background:var(--surface-2); color:var(--ink); text-decoration:underline;}
-  nav.side a.active{
-    background:var(--blue-tint); color:var(--blue-deep);
-    border-left-color:var(--blue); font-weight:700;
   }
 
-  main{padding:28px 28px 80px; min-width:0;}
+  main{padding:28px 24px 80px; min-width:0;}
 
   section{scroll-margin-top:72px; margin-bottom:56px;}
   section:last-child{margin-bottom:20px;}
+
+  /* ---------- Topic views (hidden until opened from the hub) ---------- */
+  .topic-view[hidden]{display:none;}
+  #hub[hidden]{display:none;}
+  .backlink{
+    display:inline-flex; align-items:center; gap:7px;
+    font-family:'Atkinson Hyperlegible'; font-weight:700; font-size:14.5px;
+    color:var(--blue-deep); background:var(--blue-tint);
+    border:none; border-radius:9px; padding:9px 15px;
+    cursor:pointer; margin-bottom:22px;
+  }
+  .backlink:hover{background:var(--blue); color:#fff;}
+
+  /* ---------- Hub (card menu) ---------- */
+  .hubgroup{margin-top:34px;}
+  .hubgroup:first-of-type{margin-top:0;}
+  .hubgroup-label{
+    font-size:12.5px; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--ink-faint); font-weight:700; margin-bottom:12px;
+  }
+  .cardgrid{display:grid; grid-template-columns:1fr; gap:14px;}
+  @media(min-width:640px){.cardgrid{grid-template-columns:repeat(2,1fr);}}
+  .hubcard{
+    display:flex; align-items:flex-start; gap:14px;
+    text-align:left; width:100%;
+    padding:18px 20px; cursor:pointer;
+    font-family:'Atkinson Hyperlegible';
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:var(--radius); box-shadow:var(--shadow);
+  }
+  .hubcard:hover{border-color:var(--blue); box-shadow:0 0 0 1px var(--blue) inset;}
+  .hubicon{
+    flex-shrink:0; width:42px; height:42px; border-radius:10px;
+    background:var(--blue-tint); font-size:21px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .hubtitle{display:block; font-size:16px; font-weight:700; color:var(--ink); margin-bottom:4px;}
+  .hubdesc{display:block; font-size:14px; color:var(--ink-muted); line-height:1.5;}
 
   .kicker{
     display:inline-flex; align-items:center; gap:7px;
@@ -372,53 +384,128 @@
     <h1>IA no Comercial — GLP Laboratórios</h1>
   </div>
   <div class="meta">
-    <span class="pill">v4 · Uso geral</span>
+    <span class="pill">v5 · Menu por cards</span>
     <span>Atualizado em set/2026</span>
   </div>
 </div>
 
 <div class="shell">
-  <nav class="side" id="sidenav">
-    <div class="navgroup">
-      <div class="navgroup-label">Comece aqui</div>
-      <a href="#inicio">Visão geral</a>
-      <a href="#setup">Primeiros passos</a>
-      <a href="#diagnostico">Suas demandas</a>
-    </div>
-    <div class="navgroup">
-      <div class="navgroup-label">Fundamentos</div>
-      <a href="#conversar">Como conversar com a IA</a>
-      <a href="#tarefas">Tarefas do dia a dia</a>
-      <a href="#exemplos">Exemplos por área</a>
-      <a href="#automatizar">Automatizar de verdade</a>
-    </div>
-    <div class="navgroup">
-      <div class="navgroup-label">Regras do jogo</div>
-      <a href="#seguranca">Segurança &amp; privacidade</a>
-      <a href="#etica">Postura &amp; ética</a>
-    </div>
-    <div class="navgroup">
-      <div class="navgroup-label">Para ir além</div>
-      <a href="#faq">Perguntas frequentes</a>
-      <a href="#glossario">Glossário</a>
-      <a href="#aprender">Trilha de aprendizado</a>
-    </div>
-  </nav>
-
   <main>
-    <section id="inicio">
+    <div id="hub">
       <div class="hero">
         <h1>Usar bem a IA no comercial, seja qual for a ferramenta</h1>
-        <p class="lede">Este manual não ensina um sistema — ensina a usar bem a IA que você tiver à mão (ChatGPT, Claude, Gemini, Copilot ou outra) no que quer que você esteja fazendo: um e-mail, uma pesquisa, um resumo, uma proposta. É a base comum que vale hoje e continua valendo mesmo se a GLP mudar de ferramenta amanhã. Documento vivo: atualizo esta mesma página conforme o uso evolui.</p>
+        <p class="lede">Este manual não ensina um sistema — ensina a usar bem a IA que você tiver à mão (ChatGPT, Claude, Gemini, Copilot ou outra) no que quer que você esteja fazendo: um e-mail, uma pesquisa, um resumo, uma proposta. Escolha um card abaixo pra começar — não precisa ler tudo de uma vez. Documento vivo: atualizo esta mesma página conforme o uso evolui.</p>
         <div class="facts">
           <span>Vale pra qualquer IA — ChatGPT, Claude, Gemini ou outra</span>
           <span>Foco em <strong>como pensar</strong>, não em botões pra clicar</span>
           <span>Revisão humana sempre no final — isso não muda</span>
         </div>
       </div>
-    </section>
 
-    <section id="setup">
+      <div class="hubgroup">
+        <div class="hubgroup-label">Comece aqui</div>
+        <div class="cardgrid">
+          <button class="hubcard" type="button" data-topic="setup">
+            <span class="hubicon" aria-hidden="true">🚀</span>
+            <span>
+              <span class="hubtitle">Primeiros passos</span>
+              <span class="hubdesc">Criar conta, escolher web/desktop/celular e o cuidado com confidencialidade antes de qualquer prompt.</span>
+            </span>
+          </button>
+          <button class="hubcard" type="button" data-topic="diagnostico">
+            <span class="hubicon" aria-hidden="true">🧭</span>
+            <span>
+              <span class="hubtitle">Suas demandas, hoje</span>
+              <span class="hubdesc">Liste suas tarefas e como faz hoje — a página gera um prompt pronto pra colar em qualquer IA.</span>
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <div class="hubgroup">
+        <div class="hubgroup-label">Fundamentos</div>
+        <div class="cardgrid">
+          <button class="hubcard" type="button" data-topic="conversar">
+            <span class="hubicon" aria-hidden="true">💬</span>
+            <span>
+              <span class="hubtitle">Como conversar com a IA</span>
+              <span class="hubdesc">A diferença entre uma resposta genérica e uma útil está em como você pede.</span>
+            </span>
+          </button>
+          <button class="hubcard" type="button" data-topic="tarefas">
+            <span class="hubicon" aria-hidden="true">🗂️</span>
+            <span>
+              <span class="hubtitle">Tarefas do dia a dia</span>
+              <span class="hubdesc">Seis tipos de tarefa comuns na rotina comercial, cada uma com um prompt de partida.</span>
+            </span>
+          </button>
+          <button class="hubcard" type="button" data-topic="exemplos">
+            <span class="hubicon" aria-hidden="true">📌</span>
+            <span>
+              <span class="hubtitle">Exemplos por área</span>
+              <span class="hubdesc">Um cenário antes/depois por frente: mineração, ambiental, alimentos e laboratórios parceiros.</span>
+            </span>
+          </button>
+          <button class="hubcard" type="button" data-topic="automatizar">
+            <span class="hubicon" aria-hidden="true">🔁</span>
+            <span>
+              <span class="hubtitle">Automatizar de verdade</span>
+              <span class="hubdesc">Usar do mesmo jeito toda vez é o que muda a rotina — não só usar uma vez.</span>
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <div class="hubgroup">
+        <div class="hubgroup-label">Regras do jogo</div>
+        <div class="cardgrid">
+          <button class="hubcard" type="button" data-topic="seguranca">
+            <span class="hubicon" aria-hidden="true">🔒</span>
+            <span>
+              <span class="hubtitle">Segurança &amp; privacidade</span>
+              <span class="hubdesc">O que fazer e o que evitar antes de colar qualquer informação numa IA.</span>
+            </span>
+          </button>
+          <button class="hubcard" type="button" data-topic="etica">
+            <span class="hubicon" aria-hidden="true">⚖️</span>
+            <span>
+              <span class="hubtitle">Postura &amp; ética</span>
+              <span class="hubdesc">A IA muda o ritmo do trabalho — não muda quem é responsável pelo resultado.</span>
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <div class="hubgroup">
+        <div class="hubgroup-label">Para ir além</div>
+        <div class="cardgrid">
+          <button class="hubcard" type="button" data-topic="faq">
+            <span class="hubicon" aria-hidden="true">❓</span>
+            <span>
+              <span class="hubtitle">Perguntas frequentes</span>
+              <span class="hubdesc">As dúvidas mais comuns de quem tá começando, e os deslizes mais fáceis de evitar.</span>
+            </span>
+          </button>
+          <button class="hubcard" type="button" data-topic="glossario">
+            <span class="hubicon" aria-hidden="true">📖</span>
+            <span>
+              <span class="hubtitle">Glossário rápido</span>
+              <span class="hubdesc">Termos como prompt, contexto e alucinação, explicados sem jargão.</span>
+            </span>
+          </button>
+          <button class="hubcard" type="button" data-topic="aprender">
+            <span class="hubicon" aria-hidden="true">🎓</span>
+            <span>
+              <span class="hubtitle">Trilha de aprendizado</span>
+              <span class="hubdesc">Cursos gratuitos e hábitos de prática pra quem quiser ir além deste manual.</span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <section id="setup" class="topic-view" hidden>
+      <button class="backlink" type="button" data-back>← Voltar ao menu</button>
       <span class="kicker"><span class="dot"></span>Antes de tudo</span>
       <h2>Primeiros passos</h2>
       <p class="lede">Meia hora de configuração evita meses de uso capenga. E um cuidado tomado agora evita um problema sério depois — por isso a confidencialidade já entra aqui, antes de qualquer prompt.</p>
@@ -449,7 +536,8 @@
       </div>
     </section>
 
-    <section id="diagnostico">
+    <section id="diagnostico" class="topic-view" hidden>
+      <button class="backlink" type="button" data-back>← Voltar ao menu</button>
       <span class="kicker"><span class="dot"></span>Comece por aqui</span>
       <h2>Suas demandas, hoje</h2>
       <p class="lede">Liste o que ocupa o seu dia e como você faz cada coisa <em>hoje</em>, sem se preocupar em parecer bem escrito. Quanto mais concreto, melhor a sugestão que você vai receber. Depois é só gerar o prompt pronto abaixo e colar na IA que você usa — ChatGPT, Claude, Gemini ou outra.</p>
@@ -474,7 +562,8 @@
       </div>
     </section>
 
-    <section id="conversar">
+    <section id="conversar" class="topic-view" hidden>
+      <button class="backlink" type="button" data-back>← Voltar ao menu</button>
       <span class="kicker"><span class="dot"></span>Fundamento nº 1</span>
       <h2>Como conversar bem com a IA</h2>
       <p class="lede">A diferença entre uma resposta genérica e uma útil está quase sempre em como você pede, não em qual IA você usa.</p>
@@ -510,7 +599,8 @@
       </div>
     </section>
 
-    <section id="tarefas">
+    <section id="tarefas" class="topic-view" hidden>
+      <button class="backlink" type="button" data-back>← Voltar ao menu</button>
       <span class="kicker"><span class="dot"></span>Fundamento nº 2</span>
       <h2>Tarefas do dia a dia que a IA ajuda</h2>
       <p class="lede">Seis tipos de tarefa que aparecem em praticamente qualquer rotina comercial — independente de qual sistema você usa pra registrar o resultado.</p>
@@ -549,7 +639,8 @@
       </div>
     </section>
 
-    <section id="exemplos">
+    <section id="exemplos" class="topic-view" hidden>
+      <button class="backlink" type="button" data-back>← Voltar ao menu</button>
       <span class="kicker"><span class="dot"></span>Na prática, por área</span>
       <h2>Exemplos por área de negócio</h2>
       <p class="lede">O jeito de usar muda pouco de ferramenta pra ferramenta, mas muda conforme o tipo de demanda de cada frente. Um cenário simples por área, pra dar ideia de aplicação real.</p>
@@ -593,7 +684,8 @@
       </div>
     </section>
 
-    <section id="automatizar">
+    <section id="automatizar" class="topic-view" hidden>
+      <button class="backlink" type="button" data-back>← Voltar ao menu</button>
       <span class="kicker"><span class="dot"></span>Fundamento nº 3</span>
       <h2>Automatizar de verdade</h2>
       <p class="lede">Usar IA uma vez economiza um minuto. Usar do mesmo jeito toda vez é o que realmente muda a rotina.</p>
@@ -622,7 +714,8 @@
       </div>
     </section>
 
-    <section id="seguranca">
+    <section id="seguranca" class="topic-view" hidden>
+      <button class="backlink" type="button" data-back>← Voltar ao menu</button>
       <span class="kicker"><span class="dot"></span>Antes de colar qualquer coisa</span>
       <h2>Segurança &amp; privacidade</h2>
       <p class="lede">Regras gerais, válidas pra qualquer conversa com IA — não só as ligadas a um sistema específico.</p>
@@ -649,7 +742,8 @@
       </div>
     </section>
 
-    <section id="etica">
+    <section id="etica" class="topic-view" hidden>
+      <button class="backlink" type="button" data-back>← Voltar ao menu</button>
       <span class="kicker"><span class="dot"></span>O combinado de fundo</span>
       <h2>Postura &amp; ética</h2>
       <p class="lede">A IA muda o ritmo do trabalho. Não muda quem é responsável pelo que sai da empresa.</p>
@@ -676,7 +770,8 @@
       </div>
     </section>
 
-    <section id="faq">
+    <section id="faq" class="topic-view" hidden>
+      <button class="backlink" type="button" data-back>← Voltar ao menu</button>
       <span class="kicker"><span class="dot"></span>Dúvidas de quem tá começando</span>
       <h2>Perguntas frequentes &amp; erros comuns</h2>
       <p class="lede">As dúvidas que mais aparecem quando alguém começa a usar IA no dia a dia — e os deslizes mais fáceis de evitar.</p>
@@ -724,7 +819,8 @@
       </div>
     </section>
 
-    <section id="glossario">
+    <section id="glossario" class="topic-view" hidden>
+      <button class="backlink" type="button" data-back>← Voltar ao menu</button>
       <span class="kicker"><span class="dot"></span>Pra quem tá começando do zero</span>
       <h2>Glossário rápido</h2>
       <p class="lede">Termos que aparecem neste manual e no dia a dia com qualquer IA — sem jargão técnico desnecessário.</p>
@@ -741,7 +837,8 @@
       </dl>
     </section>
 
-    <section id="aprender">
+    <section id="aprender" class="topic-view" hidden>
+      <button class="backlink" type="button" data-back>← Voltar ao menu</button>
       <span class="kicker"><span class="dot"></span>Pra quem quiser ir além</span>
       <h2>Trilha de aprendizado</h2>
       <p class="lede">Esse manual é o ponto de partida. Pra quem quiser se aprofundar, por conta própria e no seu ritmo — tudo gratuito.</p>
@@ -789,21 +886,51 @@
 <script>
 (function(){
   try{
-    var links = Array.from(document.querySelectorAll('nav.side a'));
-    var map = {};
-    links.forEach(function(a){ map[a.getAttribute('href').slice(1)] = a; });
-    var sections = Array.from(document.querySelectorAll('main section[id]'));
-    var observer = new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        var link = map[entry.target.id];
-        if(!link) return;
-        if(entry.isIntersecting){
-          links.forEach(function(l){ l.classList.remove('active'); });
-          link.classList.add('active');
-        }
+    var hub = document.getElementById('hub');
+    var views = Array.from(document.querySelectorAll('.topic-view'));
+    var viewMap = {};
+    views.forEach(function(s){ viewMap[s.id] = s; });
+
+    function showTopic(id, opts){
+      var moveFocus = !opts || opts.moveFocus !== false;
+      var target = viewMap[id];
+      if(!target){
+        hub.hidden = false;
+        views.forEach(function(s){ s.hidden = true; });
+        if(moveFocus) hub.querySelector('h1, .hubcard').focus({preventScroll:true});
+        window.scrollTo(0,0);
+        return;
+      }
+      hub.hidden = true;
+      views.forEach(function(s){ s.hidden = (s !== target); });
+      window.scrollTo(0,0);
+      if(moveFocus){
+        var h2 = target.querySelector('h2');
+        if(h2){ h2.setAttribute('tabindex','-1'); h2.focus({preventScroll:true}); }
+      }
+    }
+
+    function routeFromHash(opts){
+      var id = (window.location.hash || '').replace('#','');
+      showTopic(id, opts);
+    }
+
+    document.querySelectorAll('.hubcard').forEach(function(card){
+      card.addEventListener('click', function(){
+        var topic = card.getAttribute('data-topic');
+        window.location.hash = topic;
       });
-    }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
-    sections.forEach(function(s){ observer.observe(s); });
+    });
+
+    document.querySelectorAll('[data-back]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        window.location.hash = '';
+        showTopic('', {moveFocus:true});
+      });
+    });
+
+    window.addEventListener('hashchange', function(){ routeFromHash({moveFocus:true}); });
+    routeFromHash({moveFocus:false});
   }catch(e){}
 })();
 
